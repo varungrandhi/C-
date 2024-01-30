@@ -1,80 +1,69 @@
-//-------------------------------
-// Name: Varun Grandhi, Project Name: Simulating dice rolls.
-/* Project Description: Utilising the C++ random function, a random number is generated for every roll or toss.
-The values are then assigned to the dice, and the total value of the dice is determined by summing them all.
-An array is used to hold the number of same sum of dice generated in 'n' rolls, and then the count is updated using a
-pointer. Finally, simulation results are printed, showing the number of rolls requested and the number of same sum of
- dice generated or rolled.*/
-//-------------------------------
+/*
+    C++ Program: Dice Roll Simulation
 
-#include <iostream> // Header file library to carry out input and output streams. Brings all the C++ pre-processor code here.
-#include <cstdlib> // This library is used as it contains functions(random) that are required for pseudo-random number generation.
-#include <ctime>// This header provides us functionality of date and time, as we use time in seeding to generate diff sequence of random numbers.
+    Description:
+    This program simulates the rolling of two six-sided dice a specified number of times.
+    It generates random numbers for each dice, calculates the sum of the two dice, 
+    and records the occurrences of each sum in an array. The program then displays
+    the results, showing the number of times each possible sum (2 to 12) was rolled.
 
-using namespace std; // using namespace called std(standard) will allow us to use all things in std like cout for example.
+    Structure:
+    - The program includes necessary libraries for input/output and random number generation.
+    - The `dice_roll` function simulates a single dice roll, generating random values for two dice.
+    - In the `main` function, the user is prompted to input the number of dice roll simulations.
+    - The program then performs the specified number of simulations, records the results in an array,
+      and counts occurrences for each possible sum.
+    - Finally, the program displays the simulation results, showing the occurrences for each sum.
 
-// Declaring Functions: generateRandomNumber(), this functions used to generate the random numbers for each dice when its tossed/rolled.
-// Variables in these functions are described under function definition section below.
-int generateRandomNumber();
+    Note: The array `simulations_array` is used to store simulation results, and its size is set to 100.
+          The program assumes non-negative integers for dice outcomes.
 
-// Main Function that carries out the main block of code.
-// srand((unsgined) time(NULL)) - Seeding srand with current time for diff sequence of numbers in each run.
-// Variables:
-// totalRollsRequested (int) - Variable that asks user for how many rolls.
-// sumOccurencesArray[13] (int) - Array to store the sum of dices generated in each roll. Created 13 elements array by initializing all to zero values.
-// *sumOccurencePtr(int) - Pointer defined and pointed to array_track as we use this to increment the values in array using index to count same sums.
-// diceValue1 (int) - Value of the dice1 in each roll.
-// diceValue2 (int) - Value of the dice2 in each roll.
-// currentSum (int) - Addition of dice1 and dice2 value which gives sum of both dices in each roll.
-// rollsCounter (int) - used in 'do-while' loop to keep track on the number of rolls performed.
+    Author: [Varun Grandhi]
+    Project Name: Dice Roll Simulation
+*/
+#include<iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
 
-int main(){
-    srand((unsigned) time(NULL));
-    
-    // Variables for roll simulation and result tracking
-    int totalRollsRequested; // Variable to store the user input for the number of rolls
-    int sumOccurrencesArray[13] = {0}; // Array to track occurrences of each sum
-    int* sumOccurrencesPtr = sumOccurrencesArray; // Pointer to the array
-    int dieValue1, dieValue2, currentSum; // Variables to store values of dice and their sum
-    int rollsCounter = 0; // Counter to track the number of rolls
-    
-    cout << "How many rolls? ";//Prints on screen and asks user for how many rolls?
-    cin >> totalRollsRequested;//Input to be kept for how many rolls needed on the screen.
-
-    // Simulate dice rolls and track occurrences using a do-while loop
-    do
-    {
-        dieValue1 = generateRandomNumber(); // Generate a random number for the first die
-        dieValue2 = generateRandomNumber(); // Generate a random number for the second die
-        currentSum = dieValue1 + dieValue2; // Calculate the sum of two dice rolls
-        sumOccurrencesPtr[currentSum] = sumOccurrencesPtr[currentSum] + 1; // Update the count for the current sum
-        rollsCounter++;// Incrementing the counter until false
-    } while (rollsCounter < totalRollsRequested);//Checks the condition until false, if true loop runs
-
-    // Display simulation information
-    cout << "Simulating " << totalRollsRequested << " rolls..." << endl;// Prints: "Simulating 100 rolls..."
-    cout << "Results:" << endl;// Prints "Results:" on display
-
-    // Display the occurrences of each sum using a do-while loop
-    int sumIndex = 2;//the possible sums of two six-sided dice range from 2 to 12
-    do
-    {
-        cout << sumIndex << " was rolled " << sumOccurrencesArray[sumIndex] << " times." << endl;/*used to print the
-                                                            current sumIndex, the corresponding count of
-                                                            occurrences stored in sumOccurrencesArray[sumIndex], and a message
-                                                            indicating the number of times that sum was rolled.*/
-        sumIndex++;//incrementing until 12
-    } while (sumIndex <= 12);//terminates when sumIndex>12
-    
-    return 0;//return saying that there is no return value or program executed correctly
+int dice_roll() {
+    // Function to simulate a single dice roll and calculate the sum
+    int dice1 = (int)(1 + (rand() % 6));
+    int dice2 = (int)(1 + (rand() % 6));
+    int diceSum = dice1 + dice2;
+    return diceSum;
 }
-// Functions Definitions:
-/*generateRandomNumber() - used to generate one random number each time its called in for loop and assigned to dice1 & dice2 as return values */
-//rand() - Function generates the random integer.
-// dieValue (int)- stores the random number generated using random function.
-// returns : dieValue (integer)
-// Function to generate a random number between 1 and 6 (simulate a six-sided die)
-int generateRandomNumber(){
- int dieValue = (rand() % 6) + 1; // Generate a random number between 1 and 6// we used modulo operator 6 as we need only values between 0 to 5 and added 1 so it changes from 1 to 6.
- return dieValue;
-};
+
+int main() {
+    // Main function where the program execution begins
+
+    int simulations; // Variable to store the number of dice roll simulations
+    cout << "How many rolls? " << endl;
+    cin >> simulations;
+
+    cout << "Simulating " << simulations << " rolls" << endl;
+    cout << "Result: " << endl;
+
+    int simulations_array[100] = {}; // Array to store the results of simulations
+
+    for(int i = 0; i <= simulations; i++) {
+        // Loop to perform the specified number of simulations and store the results
+        simulations_array[i] = dice_roll();
+    }
+
+    for(int j = 2; j <= 12; j++) {
+        // Loop to iterate through possible sums (2 to 12) and count occurrences
+        int count = 0;
+
+        for(int k = 0; k <= simulations; k++) {
+            // Loop to count occurrences of the current sum in the simulations array
+            if (simulations_array[k] == j) {
+                count = count + 1;
+            }
+        }
+
+        cout << j << " was rolled " << count << " times " << endl;
+    }
+
+    return 0; // Return 0 to indicate successful program execution
+}
